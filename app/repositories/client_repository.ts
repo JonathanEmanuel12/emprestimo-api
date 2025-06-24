@@ -38,6 +38,6 @@ export default class ClientRepository {
     }
 
     public async delete(client: Client): Promise<void> {
-        await client.delete()
+        await client.user.delete()
     }
 }
