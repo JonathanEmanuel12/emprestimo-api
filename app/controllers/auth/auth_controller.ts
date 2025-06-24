@@ -1,9 +1,10 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
-import SignInUseCase from '../use_cases/sign_in_use_case.js';
-import { signInValidator, signUpValidator } from '#validators/auth_validator';
-import SignUpUseCase from '../use_cases/sign_up_use_case.js';
+import SignInUseCase from '../../use_cases/auth/sign_in_use_case.js';
+import { signInValidator } from '#validators/auth_validator';
+import SignUpUseCase from '../../use_cases/auth/sign_up_use_case.js';
+import { createClientValidator } from '#validators/client_validator';
 
 @inject()
 export default class AuthController {
@@ -13,7 +14,7 @@ export default class AuthController {
     ) { }
 
     public async signUp({ request, response }: HttpContext) {
-        const { email, password, name } = await request.validateUsing(signUpValidator)
+        const { email, password, name } = await request.validateUsing(createClientValidator)
         const token = await this.signUpUseCase.run(email, password, name)
         return response.ok(token)
     }

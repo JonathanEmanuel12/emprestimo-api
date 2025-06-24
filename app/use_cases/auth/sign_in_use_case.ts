@@ -1,7 +1,7 @@
 import { inject } from '@adonisjs/core';
-import AuthRepository from "../repositories/auth_repository.js";
-import UserRepository from "../repositories/user_repository.js";
-import { Roles } from "../utils/enums.js";
+import AuthRepository from "../../repositories/auth_repository.js";
+import UserRepository from "../../repositories/user_repository.js";
+import { Roles } from "../../utils/enums.js";
 
 @inject()
 export default class SignInUseCase {
