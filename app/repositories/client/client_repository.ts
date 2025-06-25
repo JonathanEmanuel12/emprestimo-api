@@ -1,7 +1,7 @@
 import Client from "#models/client";
 import User from "#models/user";
 import db from "@adonisjs/lucid/services/db";
-import { Roles } from "../utils/enums.js";
+import { Roles } from "../../utils/enums.js";
 
 export default class ClientRepository {
     public async create(email: string, password: string, name: string, role: Roles): Promise<Client> {

@@ -1,9 +1,9 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
-import ClientRepository from '../../repositories/client_repository.js';
-import { paginationValidator, searchValidator } from '#validators/index_validator';
-import { updateClientValidator } from '#validators/client_validator';
+import ClientRepository from '../../repositories/client/client_repository.js';
+import { paginationValidator, searchValidator } from '#validators/general/index_validator';
+import { updateClientValidator } from '#validators/client/client_validator';
 import UpdateClientUseCase from '../../use_cases/client/update_client_use_case.js';
 import DeleteClientUseCase from '../../use_cases/client/delete_client_use_case.js';
 
