@@ -3,6 +3,6 @@ import { HttpContext } from '@adonisjs/core/http'
 
 export default class ApplicationException extends Exception {
     async handle(error: this, ctx: HttpContext) {
-        ctx.response.status(error.status).send(error.message)
+        ctx.response.status(error.status).send({ message: error.message })
     }
 }
