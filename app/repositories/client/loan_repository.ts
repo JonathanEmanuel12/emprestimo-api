@@ -9,7 +9,7 @@ export default class LoanRepository {
     }
 
     public async get(loanId: string): Promise<Loan> {
-        return await Loan.query().where('id', loanId).firstOrFail()
+        return await Loan.query().where('id', loanId).preload('item' as any).firstOrFail()
     }
     
     public async update(loan: Loan, loanDto: UpdateLoanDto): Promise<void> {
