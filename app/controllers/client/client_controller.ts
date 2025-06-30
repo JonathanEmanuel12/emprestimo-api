@@ -6,11 +6,14 @@ import { paginationValidator, searchValidator } from '#validators/general/index_
 import { updateClientValidator } from '#validators/client/client_validator';
 import UpdateClientUseCase from '../../use_cases/client/update_client_use_case.js';
 import DeleteClientUseCase from '../../use_cases/client/delete_client_use_case.js';
+import { createAddressValidator, updateAddressValidator } from '#validators/client/address_validator';
+import CompleteProfileUseCase from '../../use_cases/client/complete_profile_use_case.js';
 
 @inject()
 export default class ClientController {
     constructor(
         private readonly clientRepository: ClientRepository,
+        private readonly completeProfileUseCase: CompleteProfileUseCase,
         private readonly updateClientUseCase: UpdateClientUseCase,
         private readonly deleteClientUseCase: DeleteClientUseCase
     ) { }
@@ -28,10 +31,18 @@ export default class ClientController {
         return response.ok(clients)
     }
     
+    public async completeProfile({ params, request, response }: HttpContext) {
+        const { clientId } = params
+        const addressDto = await request.validateUsing(createAddressValidator)
+        await this.completeProfileUseCase.run(clientId, addressDto)
+        return response.noContent()
+    }
+    
     public async update({ params, request, response }: HttpContext) {
         const { clientId } = params
         const { email, password, name } = await request.validateUsing(updateClientValidator)
-        await this.updateClientUseCase.run(clientId, email, password, name)
+        const addressDto = await request.validateUsing(updateAddressValidator)
+        await this.updateClientUseCase.run(clientId, addressDto, email, password, name)
         return response.noContent()
     }
 

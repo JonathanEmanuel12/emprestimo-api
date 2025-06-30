@@ -1,8 +1,9 @@
-import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import UuidBase from './base/uuid_base.js'
 import User from './user.js'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Item from './item.js'
+import Address from './address.js'
 
 export default class Client extends UuidBase {
   @column()
@@ -16,4 +17,7 @@ export default class Client extends UuidBase {
 
   @hasMany(() => Item)
   declare items: HasMany<typeof Item>
+
+  @hasOne(() => Address)
+  declare address: HasOne<typeof Address>
 }

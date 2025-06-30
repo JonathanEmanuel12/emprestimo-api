@@ -5,6 +5,7 @@ import router from '@adonisjs/core/services/router'
 router.group(() => {
     router.get('/:clientId', [ClientController, 'show']).middleware(middleware.auth())
     router.get('/', [ClientController, 'index']).middleware(middleware.auth())
+    router.put('/:clientId/complete', [ClientController, 'completeProfile']).middleware(middleware.clientIsHimself())
     router.put('/:clientId', [ClientController, 'update']).middleware(middleware.clientIsHimself())
     router.delete('/:clientId', [ClientController, 'delete']).middleware(middleware.clientIsHimself())
 })

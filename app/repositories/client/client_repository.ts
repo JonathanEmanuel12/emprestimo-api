@@ -2,6 +2,7 @@ import Client from "#models/client";
 import User from "#models/user";
 import db from "@adonisjs/lucid/services/db";
 import { Roles } from "../../utils/enums.js";
+import { CreateAddressDto, UpdateAddressDto } from "../../dtos/client/address_dto.js";
 
 export default class ClientRepository {
     public async create(email: string, password: string, name: string, role: Roles): Promise<Client> {
@@ -18,6 +19,7 @@ export default class ClientRepository {
         return await Client.query()
             .where('id', clientId)
             .preload('user' as any)
+            .preload('address' as any)
             .firstOrFail()
     }
 
@@ -28,15 +30,23 @@ export default class ClientRepository {
             .paginate(page, perPage)
     }
 
-    public async update(client: Client, email?: string, password?: string, name?: string): Promise<void> {
+    public async update(client: Client, addressDto: UpdateAddressDto, email?: string, password?: string, name?: string): Promise<void> {
         await db.transaction(async (trx) => {
             client.user.useTransaction(trx)
             await client.user.merge({ email, password }).save()
+
             client.useTransaction(trx)
             await client.merge({ name }).save()
+            
+            client.address.useTransaction(trx)
+            await client.address.merge(addressDto).save()
         })
     }
 
+    public async createAddress(client: Client, addressDto: CreateAddressDto): Promise<void> {
+        await client.related('address' as any).create(addressDto)
+    }
+    
     public async delete(client: Client): Promise<void> {
         await client.user.delete()
     }
