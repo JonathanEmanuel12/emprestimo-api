@@ -10,6 +10,9 @@ export default class Client extends UuidBase {
   declare name: string
 
   @column()
+  declare imgUrl: string
+  
+  @column()
   declare userId: string
 
   @belongsTo(() => User)

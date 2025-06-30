@@ -3,7 +3,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
 import ClientRepository from '../../repositories/client/client_repository.js';
 import { paginationValidator, searchValidator } from '#validators/general/index_validator';
-import { updateClientValidator } from '#validators/client/client_validator';
+import { completeProfileValidator, updateClientValidator } from '#validators/client/client_validator';
 import UpdateClientUseCase from '../../use_cases/client/update_client_use_case.js';
 import DeleteClientUseCase from '../../use_cases/client/delete_client_use_case.js';
 import { createAddressValidator, updateAddressValidator } from '#validators/client/address_validator';
@@ -34,15 +34,16 @@ export default class ClientController {
     public async completeProfile({ params, request, response }: HttpContext) {
         const { clientId } = params
         const addressDto = await request.validateUsing(createAddressValidator)
-        await this.completeProfileUseCase.run(clientId, addressDto)
+        const { img } = await request.validateUsing(completeProfileValidator)  
+        await this.completeProfileUseCase.run(clientId, addressDto, img)
         return response.noContent()
     }
     
     public async update({ params, request, response }: HttpContext) {
         const { clientId } = params
-        const { email, password, name } = await request.validateUsing(updateClientValidator)
+        const clientDto = await request.validateUsing(updateClientValidator)
         const addressDto = await request.validateUsing(updateAddressValidator)
-        await this.updateClientUseCase.run(clientId, addressDto, email, password, name)
+        await this.updateClientUseCase.run(clientId, clientDto, addressDto)
         return response.noContent()
     }
 

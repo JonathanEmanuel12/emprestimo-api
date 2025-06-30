@@ -3,6 +3,7 @@ import User from "#models/user";
 import db from "@adonisjs/lucid/services/db";
 import { Roles } from "../../utils/enums.js";
 import { CreateAddressDto, UpdateAddressDto } from "../../dtos/client/address_dto.js";
+import { UpdateClientDto } from "../../dtos/client/client_dto.js";
 
 export default class ClientRepository {
     public async create(email: string, password: string, name: string, role: Roles): Promise<Client> {
@@ -30,13 +31,13 @@ export default class ClientRepository {
             .paginate(page, perPage)
     }
 
-    public async update(client: Client, addressDto: UpdateAddressDto, email?: string, password?: string, name?: string): Promise<void> {
+    public async update(client: Client, { email, password, ...clientDto }: UpdateClientDto , addressDto: UpdateAddressDto): Promise<void> {
         await db.transaction(async (trx) => {
             client.user.useTransaction(trx)
             await client.user.merge({ email, password }).save()
 
             client.useTransaction(trx)
-            await client.merge({ name }).save()
+            await client.merge(clientDto).save()
             
             client.address.useTransaction(trx)
             await client.address.merge(addressDto).save()

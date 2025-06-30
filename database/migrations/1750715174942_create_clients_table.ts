@@ -7,6 +7,7 @@ export default class extends BaseSchema {
         this.schema.createTable(this.tableName, (table) => {
             table.uuid('id').primary()
             table.string('name').notNullable()
+            table.string('img_url').nullable()
             table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE').notNullable()
 
             table.timestamp('created_at')
