@@ -12,11 +12,19 @@ export default class ItemRepository {
             .firstOrFail()
     }
 
-    public async index(page: number, perPage: number, search: string): Promise<Item[]> {
-        return await Item.query()
+    public async index(page: number, perPage: number, search: string, showMyItems: boolean, clientId: string): Promise<Item[]> {
+        const itemQuery = Item.query()
             .whereILike('name', `%${search}%`)
-            // .preload('client')
-            .paginate(page, perPage)
+            .preload('client')
+        
+        if(showMyItems === true) {
+            itemQuery.andWhere('clientId', clientId)
+        }
+        else {
+            itemQuery.andWhereNot('clientId', clientId)
+        }
+        
+        return await itemQuery.paginate(page, perPage)
     }
 
     public async update(item: Item, name?: string, description?: string, observation?: string): Promise<void> {

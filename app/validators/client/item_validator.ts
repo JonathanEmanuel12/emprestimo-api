@@ -15,3 +15,9 @@ export const updateItemValidator = vine.compile(
         observation: vine.string().optional()
     })
 )
+
+export const indexItemValidator = vine.compile(
+    vine.object({
+        showMyItems: vine.boolean().optional()
+    })
+)

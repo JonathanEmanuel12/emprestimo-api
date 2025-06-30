@@ -5,7 +5,7 @@ import { paginationValidator, searchValidator } from '#validators/general/index_
 import ItemRepository from '../../repositories/client/item_repository.js';
 import UpdateItemUseCase from '../../use_cases/client/item/update_item_use_case.js';
 import DeleteItemUseCase from '../../use_cases/client/item/delete_item_use_case.js';
-import { createItemValidator, updateItemValidator } from '#validators/client/item_validator';
+import { createItemValidator, indexItemValidator, updateItemValidator } from '#validators/client/item_validator';
 
 @inject()
 export default class ItemController {
@@ -28,10 +28,12 @@ export default class ItemController {
         return response.ok(item)
     }
 
-    public async index({ request, response }: HttpContext) {
+    public async index({ params, request, response }: HttpContext) {
+        const { clientId } = params
         const { page = 1, perPage = 10 } = await request.validateUsing(paginationValidator)
         const { search = '' } = await request.validateUsing(searchValidator)
-        const items = await await this.itemRepository.index(page, perPage, search)
+        const { showMyItems = false } = await request.validateUsing(indexItemValidator)
+        const items = await await this.itemRepository.index(page, perPage, search, showMyItems, clientId)
         return response.ok(items)
     }
     
