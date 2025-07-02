@@ -41,9 +41,9 @@ export default class ClientController {
     
     public async update({ params, request, response }: HttpContext) {
         const { clientId } = params
-        const clientDto = await request.validateUsing(updateClientValidator)
+        const { img, ...clientDto } = await request.validateUsing(updateClientValidator)
         const addressDto = await request.validateUsing(updateAddressValidator)
-        await this.updateClientUseCase.run(clientId, clientDto, addressDto)
+        await this.updateClientUseCase.run(clientId, clientDto, addressDto, img)
         return response.noContent()
     }
 
