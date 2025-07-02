@@ -58,6 +58,7 @@
     "@adonisjs/lucid": "^21.6.1",
     "@aws-sdk/client-s3": "^3.840.0",
     "@aws-sdk/s3-request-presigner": "^3.840.0",
+    "@sendgrid/mail": "^8.1.5",
     "@vinejs/vine": "^3.0.1",
     "luxon": "^3.6.1",
     "pg": "^8.16.2",

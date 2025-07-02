@@ -6,10 +6,10 @@ import { CreateAddressDto, UpdateAddressDto } from "../../dtos/client/address_dt
 import { UpdateClientDto } from "../../dtos/client/client_dto.js";
 
 export default class ClientRepository {
-    public async create(email: string, password: string, name: string, role: Roles): Promise<Client> {
+    public async create(email: string, password: string, name: string, role: Roles, isVerified: boolean): Promise<Client> {
         return await db.transaction(async (trx) => {
             const user = await User.create({ email, password, role }, { client: trx })
-            const client = await Client.create({ userId: user.id, name }, { client: trx })
+            const client = await Client.create({ userId: user.id, name, isVerified }, { client: trx })
             await client.load('user' as any)
             return client
         })

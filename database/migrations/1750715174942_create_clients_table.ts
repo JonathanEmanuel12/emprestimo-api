@@ -8,6 +8,7 @@ export default class extends BaseSchema {
             table.uuid('id').primary()
             table.string('name').notNullable()
             table.string('img_url').nullable()
+            table.boolean('is_verified').defaultTo(false).notNullable()
             table.uuid('user_id').references('id').inTable('users').onDelete('CASCADE').notNullable()
 
             table.timestamp('created_at')
