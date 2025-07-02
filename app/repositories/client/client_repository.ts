@@ -39,8 +39,10 @@ export default class ClientRepository {
             client.useTransaction(trx)
             await client.merge(clientDto).save()
             
-            client.address.useTransaction(trx)
-            await client.address.merge(addressDto).save()
+            if(client.address !== null){
+                client.address.useTransaction(trx)
+                await client.address.merge(addressDto).save()    
+            }
         })
     }
 

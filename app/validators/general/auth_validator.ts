@@ -6,3 +6,9 @@ export const signInValidator = vine.compile(
         password: vine.string()
     })
 )
+
+export const codeValidator = vine.compile(
+    vine.object({
+        code: vine.string().trim()
+    })
+)
