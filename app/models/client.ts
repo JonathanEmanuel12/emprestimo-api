@@ -4,6 +4,7 @@ import User from './user.js'
 import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Item from './item.js'
 import Address from './address.js'
+import ValidationCode from './validation_code.js'
 
 export default class Client extends UuidBase {
   @column()
@@ -11,6 +12,9 @@ export default class Client extends UuidBase {
 
   @column()
   declare imgUrl: string
+
+  @column()
+  declare isVerified: boolean
   
   @column()
   declare userId: string
@@ -20,6 +24,9 @@ export default class Client extends UuidBase {
 
   @hasMany(() => Item)
   declare items: HasMany<typeof Item>
+
+  @hasMany(() => ValidationCode)
+  declare validationCodes: HasMany<typeof ValidationCode>
 
   @hasOne(() => Address)
   declare address: HasOne<typeof Address>

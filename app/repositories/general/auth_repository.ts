@@ -1,4 +1,6 @@
+import Client from "#models/client";
 import User from "#models/user";
+import ValidationCode from "#models/validation_code";
 import { AccessToken } from "@adonisjs/auth/access_tokens";
 import db from "@adonisjs/lucid/services/db";
 
@@ -9,6 +11,10 @@ export default class AuthRepository {
 
     public async createToken(user: User): Promise<AccessToken> {
         return await User.accessTokens.create(user)
+    }
+
+    public async createValidationCode(client: Client, code: string): Promise<ValidationCode> {
+        return await ValidationCode.create({ code, wasUsed: false, clientId: client.id })
     }
 
     public async deleteTokens(userId: string): Promise<void> {
