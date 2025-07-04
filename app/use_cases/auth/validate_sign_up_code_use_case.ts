@@ -17,7 +17,7 @@ export default class ValidateSignUpCodeUseCase {
         }
 
         const validationCode = await this.authRepository.getValidValidationCode(code)
-        await this.clientRepository.update(client, { isVerified: true }, {})
+        await this.clientRepository.update(client, { isVerified: true }, {}, {})
         const fullToken = await this.authRepository.createToken(client.user)
         const { token, type } = fullToken.toJSON()
         await this.authRepository.updateValidationCode(validationCode, { wasUsed: true })

@@ -2,7 +2,7 @@ import Client from "#models/client";
 import User from "#models/user";
 import db from "@adonisjs/lucid/services/db";
 import { Roles } from "../../utils/enums.js";
-import { CreateAddressDto, UpdateAddressDto } from "../../dtos/client/address_dto.js";
+import { CreateAddressDto, CreateGeolocationDto, UpdateAddressDto, UpdateGeolocationDto } from "../../dtos/client/address_dto.js";
 import { UpdateClientDto } from "../../dtos/client/client_dto.js";
 
 export default class ClientRepository {
@@ -31,25 +31,36 @@ export default class ClientRepository {
             .paginate(page, perPage)
     }
 
-    public async update(client: Client, { email, password, ...clientDto }: UpdateClientDto , addressDto: UpdateAddressDto): Promise<void> {
+    public async update(
+        client: Client,
+        { email, password, ...clientDto }: UpdateClientDto,
+        addressDto: UpdateAddressDto,
+        geolocationDto: UpdateGeolocationDto
+    ): Promise<void> {
         await db.transaction(async (trx) => {
             client.user.useTransaction(trx)
             await client.user.merge({ email, password }).save()
 
             client.useTransaction(trx)
             await client.merge(clientDto).save()
-            
-            if(client.address !== null){
+
+            if (client.address !== null) {
                 client.address.useTransaction(trx)
-                await client.address.merge(addressDto).save()    
+                await client.address.merge(addressDto).save()
+                const geolocation = await client.address.related('geolocation').query().firstOrFail()
+                geolocation.useTransaction(trx)
+                await geolocation.merge(geolocationDto).save()
             }
         })
     }
 
-    public async createAddress(client: Client, addressDto: CreateAddressDto): Promise<void> {
-        await client.related('address' as any).create(addressDto)
+    public async createAddress(client: Client, addressDto: CreateAddressDto, geolocationDto: CreateGeolocationDto): Promise<void> {
+        await db.transaction(async (trx) => {
+            const address = await client.related('address' as any).create(addressDto, { client: trx })
+            await address.related('geolocation' as any).create(geolocationDto, { client: trx })
+        })
     }
-    
+
     public async delete(client: Client): Promise<void> {
         await client.user.delete()
     }

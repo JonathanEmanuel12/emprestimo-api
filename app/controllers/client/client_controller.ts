@@ -6,7 +6,7 @@ import { paginationValidator, searchValidator } from '#validators/general/index_
 import { completeProfileValidator, updateClientValidator } from '#validators/client/client_validator';
 import UpdateClientUseCase from '../../use_cases/client/update_client_use_case.js';
 import DeleteClientUseCase from '../../use_cases/client/delete_client_use_case.js';
-import { createAddressValidator, updateAddressValidator } from '#validators/client/address_validator';
+import { createAddressValidator, createGeolocationValidator, updateAddressValidator, updateGeolocationValidator } from '#validators/client/address_validator';
 import CompleteProfileUseCase from '../../use_cases/client/complete_profile_use_case.js';
 
 @inject()
@@ -34,8 +34,9 @@ export default class ClientController {
     public async completeProfile({ params, request, response }: HttpContext) {
         const { clientId } = params
         const addressDto = await request.validateUsing(createAddressValidator)
-        const { img } = await request.validateUsing(completeProfileValidator)  
-        await this.completeProfileUseCase.run(clientId, addressDto, img)
+        const geolocationDto = await request.validateUsing(createGeolocationValidator)
+        const { img } = await request.validateUsing(completeProfileValidator)
+        await this.completeProfileUseCase.run(clientId, addressDto, geolocationDto, img)
         return response.noContent()
     }
     
@@ -43,7 +44,8 @@ export default class ClientController {
         const { clientId } = params
         const { img, ...clientDto } = await request.validateUsing(updateClientValidator)
         const addressDto = await request.validateUsing(updateAddressValidator)
-        await this.updateClientUseCase.run(clientId, clientDto, addressDto, img)
+        const geolocationDto = await request.validateUsing(updateGeolocationValidator)
+        await this.updateClientUseCase.run(clientId, clientDto, addressDto, geolocationDto, img)
         return response.noContent()
     }
 
