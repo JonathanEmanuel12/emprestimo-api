@@ -18,6 +18,9 @@ export const updateItemValidator = vine.compile(
 
 export const indexItemValidator = vine.compile(
     vine.object({
-        showMyItems: vine.boolean().optional()
+        showMyItems: vine.boolean().optional(),
+        latitude: vine.string(),
+        longitude: vine.string(),
+        distance: vine.number()     
     })
 )
