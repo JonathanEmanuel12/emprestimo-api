@@ -1,6 +1,6 @@
 import { inject } from '@adonisjs/core';
 import ClientRepository from "../../repositories/client/client_repository.js";
-import { CreateAddressDto } from '../../dtos/client/address_dto.js';
+import { CreateAddressDto, CreateGeolocationDto } from '../../dtos/client/address_dto.js';
 import { MultipartFile } from '@adonisjs/core/bodyparser';
 import FileService from '#services/file_service';
 
@@ -11,10 +11,10 @@ export default class CompleteProfileUseCase {
         private readonly fileService: FileService
     ) { }
 
-    public async run(clientId: string, addressDto: CreateAddressDto, img: MultipartFile): Promise<void> {
+    public async run(clientId: string, addressDto: CreateAddressDto, geolocationDto: CreateGeolocationDto, img: MultipartFile): Promise<void> {
         const client = await this.clientRepository.show(clientId)
         const imgUrl = await this.fileService.upload(img, 'client/profile_img', client.id)
-        await this.clientRepository.createAddress(client, addressDto)
-        await this.clientRepository.update(client, { imgUrl }, {})
+        await this.clientRepository.createAddress(client, addressDto, geolocationDto)
+        await this.clientRepository.update(client, { imgUrl }, {}, {})
     }
 }

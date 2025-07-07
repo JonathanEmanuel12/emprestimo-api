@@ -6,4 +6,5 @@ export interface CreateClientDto {
 
 export interface UpdateClientDto extends Partial<CreateClientDto> {
     imgUrl?: string
+    isVerified?: boolean
 }

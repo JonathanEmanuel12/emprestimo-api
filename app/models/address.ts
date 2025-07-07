@@ -1,7 +1,8 @@
 import UuidBase from './base/uuid_base.js'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import { belongsTo, column } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
+import { belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
 import Client from './client.js'
+import Geolocation from './geolocation.js'
 
 export default class Address extends UuidBase {
     @column()
@@ -30,4 +31,7 @@ export default class Address extends UuidBase {
 
     @belongsTo(() => Client)
     declare client: BelongsTo<typeof Client>
+
+    @hasOne(() => Geolocation)
+    declare geolocation: HasOne<typeof Geolocation>
 }

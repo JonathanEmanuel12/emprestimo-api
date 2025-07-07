@@ -21,7 +21,7 @@ export default class ItemController {
         const item = await this.itemRepository.create(name, description, clientId, observation)
         return response.created(item)
     }
-    
+
     public async show({ params, response }: HttpContext) {
         const { itemId } = params
         const item = await this.itemRepository.show(itemId)
@@ -30,13 +30,16 @@ export default class ItemController {
 
     public async index({ params, request, response }: HttpContext) {
         const { clientId } = params
+
         const { page = 1, perPage = 10 } = await request.validateUsing(paginationValidator)
         const { search = '' } = await request.validateUsing(searchValidator)
-        const { showMyItems = false } = await request.validateUsing(indexItemValidator)
-        const items = await await this.itemRepository.index(page, perPage, search, showMyItems, clientId)
+        const { showMyItems = false, latitude, longitude, distance } = await request.validateUsing(indexItemValidator)
+        const itemIndexDto = { page, perPage, search, showMyItems, clientId, latitude, longitude, distance }
+        
+        const items = await await this.itemRepository.index(itemIndexDto)
         return response.ok(items)
     }
-    
+
     public async update({ params, request, response }: HttpContext) {
         const { itemId, clientId } = params
         const { name, description, observation } = await request.validateUsing(updateItemValidator)

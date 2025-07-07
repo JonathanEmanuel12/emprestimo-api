@@ -23,3 +23,17 @@ export const updateAddressValidator = vine.compile(
         complement: vine.string().optional()
     })
 )
+
+export const createGeolocationValidator = vine.compile(
+    vine.object({
+        latitude: vine.string(),
+        longitude: vine.string(),
+    })
+)
+
+export const updateGeolocationValidator = vine.compile(
+    vine.object({
+        latitude: vine.string().optional(),
+        longitude: vine.string().optional(),
+    })
+)
