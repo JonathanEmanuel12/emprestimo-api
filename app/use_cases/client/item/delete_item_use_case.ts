@@ -1,5 +1,5 @@
 import { inject } from '@adonisjs/core';
-import ItemRepository from '../../../repositories/client/item_repository.js';
+import ItemRepository from '#repositories/client/item_repository';
 import ApplicationException from '#exceptions/application_exception';
 
 @inject()

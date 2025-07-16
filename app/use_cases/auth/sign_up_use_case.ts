@@ -1,6 +1,6 @@
 import { inject } from '@adonisjs/core';
-import AuthRepository from "../../repositories/general/auth_repository.js";
-import ClientRepository from "../../repositories/client/client_repository.js";
+import AuthRepository from "#repositories/general/auth_repository";
+import ClientRepository from "#repositories/client/client_repository";
 import { Roles } from '../../utils/enums.js';
 import EmailService from '#services/email_service';
 import generateRandomString from '../../utils/functions/generateRandomString.js';

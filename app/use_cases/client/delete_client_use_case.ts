@@ -1,5 +1,5 @@
 import { inject } from '@adonisjs/core';
-import ClientRepository from "../../repositories/client/client_repository.js";
+import ClientRepository from "#repositories/client/client_repository";
 
 @inject()
 export default class DeleteClientUseCase {
