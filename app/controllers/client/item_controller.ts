@@ -2,7 +2,7 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
 import { paginationValidator, searchValidator } from '#validators/general/index_validator';
-import ItemRepository from '../../repositories/client/item_repository.js';
+import ItemRepository from '#repositories/client/item_repository';
 import UpdateItemUseCase from '../../use_cases/client/item/update_item_use_case.js';
 import DeleteItemUseCase from '../../use_cases/client/item/delete_item_use_case.js';
 import { createItemValidator, indexItemValidator, updateItemValidator } from '#validators/client/item_validator';

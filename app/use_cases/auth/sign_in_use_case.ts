@@ -1,6 +1,6 @@
 import { inject } from '@adonisjs/core';
-import AuthRepository from "../../repositories/general/auth_repository.js";
-import UserRepository from "../../repositories/general/user_repository.js";
+import AuthRepository from "#repositories/general/auth_repository";
+import UserRepository from "#repositories/general/user_repository";
 import { Roles } from "../../utils/enums.js";
 import ApplicationException from '#exceptions/application_exception';
 import User from '#models/user';

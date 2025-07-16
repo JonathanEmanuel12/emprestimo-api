@@ -1,6 +1,6 @@
 import { inject } from '@adonisjs/core';
 import ApplicationException from '#exceptions/application_exception';
-import LoanRepository from '../../../repositories/client/loan_repository.js';
+import LoanRepository from '#repositories/client/loan_repository';
 import { LoanStatus } from '../../../utils/enums.js';
 import Loan from '#models/loan';
 

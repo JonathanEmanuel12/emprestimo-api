@@ -1,6 +1,6 @@
 import { inject } from '@adonisjs/core';
-import ClientRepository from "../../repositories/client/client_repository.js";
-import AuthRepository from '../../repositories/general/auth_repository.js';
+import ClientRepository from "#repositories/client/client_repository";
+import AuthRepository from '#repositories/general/auth_repository';
 import { UpdateAddressDto, UpdateGeolocationDto } from '../../dtos/client/address_dto.js';
 import { UpdateClientDto } from '../../dtos/client/client_dto.js';
 import { MultipartFile } from '@adonisjs/core/bodyparser';
