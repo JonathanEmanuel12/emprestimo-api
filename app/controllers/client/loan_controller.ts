@@ -2,8 +2,8 @@ import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
 import { updateLoanValidator, requestLoanValidator } from '#validators/client/loan_validator';
-import RequestLoanUseCase from '../../use_cases/client/loan/request_loan_use_case.js';
-import UpdateLoanUseCase from '../../use_cases/client/loan/update_loan_use_case.js';
+import RequestLoanUseCase from '#use_cases/client/loan/request_loan_use_case';
+import UpdateLoanUseCase from '#use_cases/client/loan/update_loan_use_case';
 
 @inject()
 export default class LoanController {

@@ -4,10 +4,10 @@ import type { HttpContext } from '@adonisjs/core/http'
 import ClientRepository from '#repositories/client/client_repository';
 import { paginationValidator, searchValidator } from '#validators/general/index_validator';
 import { completeProfileValidator, updateClientValidator } from '#validators/client/client_validator';
-import UpdateClientUseCase from '../../use_cases/client/update_client_use_case.js';
-import DeleteClientUseCase from '../../use_cases/client/delete_client_use_case.js';
+import UpdateClientUseCase from '#use_cases/client/update_client_use_case';
+import DeleteClientUseCase from '#use_cases/client/delete_client_use_case';
 import { createAddressValidator, createGeolocationValidator, updateAddressValidator, updateGeolocationValidator } from '#validators/client/address_validator';
-import CompleteProfileUseCase from '../../use_cases/client/complete_profile_use_case.js';
+import CompleteProfileUseCase from '#use_cases/client/complete_profile_use_case';
 
 @inject()
 export default class ClientController {
