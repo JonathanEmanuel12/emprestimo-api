@@ -27,6 +27,13 @@ export default class ItemRepository {
             .firstOrFail()
     }
 
+    public async get(itemId: string): Promise<Item> {
+        return await Item.query()
+            .where('id', itemId)
+            .preload('client')
+            .firstOrFail()
+    }
+
     public async index(itemIndexDto: ItemIndexDto): Promise<Item[]> {
         const { page, perPage, search, latitude, longitude, distance, showMyItems, clientId } = itemIndexDto
 
