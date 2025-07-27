@@ -7,10 +7,23 @@ export default class ItemRepository {
         return await Item.create({ name, description, observation, clientId })
     }
 
-    public async show(itemId: string): Promise<Item> {
+    public async show(itemId: string, latitude: string, longitude: string): Promise<Item> {
         return await Item.query()
+            .select('id', 'name', 'description', 'observation', 'clientId')
             .where('id', itemId)
-            .preload('client')
+            .preload('client', (query) => {
+                query.select('id', 'name', 'imgUrl')
+                query.preload('address' as any, (query) => {
+                    query.preload('geolocation', (query: any) => {
+                        query.select(db.raw(`geolocations.id, geolocations.address_id, (6371 * acos(cos(radians(cast(geolocations.latitude as double precision)))
+                            * cos(radians('${latitude}'))
+                            * cos(radians(cast(geolocations.longitude as double precision))
+                            - radians('${longitude}'))
+                            + sin(radians(cast(geolocations.latitude as double precision)))
+                            * sin(radians('${latitude}')))) as distance`))
+                    })
+                })
+            })
             .firstOrFail()
     }
 

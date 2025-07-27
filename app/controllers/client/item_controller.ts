@@ -5,7 +5,7 @@ import { paginationValidator, searchValidator } from '#validators/general/index_
 import ItemRepository from '#repositories/client/item_repository';
 import UpdateItemUseCase from '#use_cases/client/item/update_item_use_case';
 import DeleteItemUseCase from '#use_cases/client/item/delete_item_use_case';
-import { createItemValidator, indexItemValidator, updateItemValidator } from '#validators/client/item_validator';
+import { createItemValidator, geolocationFilterValidator, indexItemValidator, updateItemValidator } from '#validators/client/item_validator';
 
 @inject()
 export default class ItemController {
@@ -22,9 +22,10 @@ export default class ItemController {
         return response.created(item)
     }
 
-    public async show({ params, response }: HttpContext) {
+    public async show({ params, request, response }: HttpContext) {
         const { itemId } = params
-        const item = await this.itemRepository.show(itemId)
+        const { latitude, longitude } = await request.validateUsing(geolocationFilterValidator)
+        const item = await this.itemRepository.show(itemId, latitude, longitude)
         return response.ok(item)
     }
 
@@ -33,7 +34,9 @@ export default class ItemController {
 
         const { page = 1, perPage = 10 } = await request.validateUsing(paginationValidator)
         const { search = '' } = await request.validateUsing(searchValidator)
-        const { showMyItems = false, latitude, longitude, distance } = await request.validateUsing(indexItemValidator)
+        const { showMyItems = false, distance } = await request.validateUsing(indexItemValidator)
+        const { latitude, longitude } = await request.validateUsing(geolocationFilterValidator)
+
         const itemIndexDto = { page, perPage, search, showMyItems, clientId, latitude, longitude, distance }
         
         const items = await await this.itemRepository.index(itemIndexDto)
