@@ -1,13 +1,14 @@
 import Item from "#models/item";
 import db from "@adonisjs/lucid/services/db";
 import { ItemIndexDto } from "../../dtos/client/item_dto.js";
+import { LoanStatus } from "../../utils/enums.js";
 
 export default class ItemRepository {
     public async create(name: string, description: string, clientId: string, observation?: string): Promise<Item> {
         return await Item.create({ name, description, observation, clientId })
     }
 
-    public async show(itemId: string, latitude: string, longitude: string): Promise<Item> {
+    public async show(itemId: string, latitude: string, longitude: string, clientId: string): Promise<Item> {
         return await Item.query()
             .select('id', 'name', 'description', 'observation', 'clientId')
             .where('id', itemId)
@@ -23,6 +24,10 @@ export default class ItemRepository {
                             * sin(radians('${latitude}')))) as distance`))
                     })
                 })
+            })
+            .preload('loans', (query) => {
+                query.where('clientId', clientId)
+                query.andWhereNotIn('status', [LoanStatus.CANCELED, LoanStatus.RETURNED])
             })
             .firstOrFail()
     }

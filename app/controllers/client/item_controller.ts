@@ -23,9 +23,15 @@ export default class ItemController {
     }
 
     public async show({ params, request, response }: HttpContext) {
-        const { itemId } = params
+        const { clientId, itemId } = params
         const { latitude, longitude } = await request.validateUsing(geolocationFilterValidator)
-        const item = await this.itemRepository.show(itemId, latitude, longitude)
+        const item = await this.itemRepository.show(itemId, latitude, longitude, clientId)
+        return response.ok(item)
+    }
+
+    public async showToOwner({ params, response }: HttpContext) {
+        const { itemId } = params
+        const item = await this.itemRepository.get(itemId)
         return response.ok(item)
     }
 
