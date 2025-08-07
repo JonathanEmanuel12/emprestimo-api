@@ -9,3 +9,5 @@ O intuito do projeto é ser uma plataforma que permite anunciar itens disponíve
 - Docker
 - Postgresql
 - Husky
+
+Obs: Para logar na api é necessário 3 passos, cadastrar o usuário, verificar o usuário (enviar código recebido no email), logar usuário.
