@@ -6,19 +6,21 @@ import ItemRepository from '#repositories/client/item_repository';
 import UpdateItemUseCase from '#use_cases/client/item/update_item_use_case';
 import DeleteItemUseCase from '#use_cases/client/item/delete_item_use_case';
 import { createItemValidator, geolocationFilterValidator, indexItemValidator, updateItemValidator } from '#validators/client/item_validator';
+import CreateItemUseCase from '#use_cases/client/item/create_item_use_case';
 
 @inject()
 export default class ItemController {
     constructor(
         private readonly itemRepository: ItemRepository,
+        private readonly createItemUseCase: CreateItemUseCase,
         private readonly updateItemUseCase: UpdateItemUseCase,
         private readonly deleteItemUseCase: DeleteItemUseCase
     ) { }
 
     public async create({ params, request, response }: HttpContext) {
         const { clientId } = params
-        const { name, description, observation } = await request.validateUsing(createItemValidator)
-        const item = await this.itemRepository.create(name, description, clientId, observation)
+        const { name, description, img, observation } = await request.validateUsing(createItemValidator)
+        const item = await this.createItemUseCase.run(name, description, clientId, img, observation)
         return response.created(item)
     }
 

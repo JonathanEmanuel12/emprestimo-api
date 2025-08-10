@@ -14,6 +14,9 @@ export default class Item extends UuidBase {
   @column()
   declare observation: string
 
+  @column()
+  declare imgUrl: string
+
   //todo adicionar campo isAvailable
 
   @column()

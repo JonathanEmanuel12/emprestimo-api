@@ -14,6 +14,6 @@ export default class UpdateItemUseCase {
             throw new ApplicationException('Acesso negado!', { status: 403 })
         }
 
-        await this.itemRepository.update(item, name, description, observation)
+        await this.itemRepository.update(item, { name, description, observation })
     }
 }

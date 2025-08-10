@@ -84,8 +84,8 @@ export default class ItemRepository {
         return await itemQuery.paginate(page, perPage)
     }
 
-    public async update(item: Item, name?: string, description?: string, observation?: string): Promise<void> {
-        await item.merge({ name, description, observation }).save()
+    public async update(item: Item, updateItemDto: { name?: string, description?: string, observation?: string, imgUrl?: string }): Promise<void> {
+        await item.merge(updateItemDto).save()
     }
 
     public async delete(item: Item): Promise<void> {
