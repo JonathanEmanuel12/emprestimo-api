@@ -10,7 +10,7 @@ export default class ItemRepository {
 
     public async show(itemId: string, latitude: string, longitude: string, clientId: string): Promise<Item> {
         return await Item.query()
-            .select('id', 'name', 'description', 'observation', 'clientId')
+            .select('id', 'name', 'description', 'observation', 'imgUrl', 'clientId')
             .where('id', itemId)
             .preload('client', (query) => {
                 query.select('id', 'name', 'imgUrl')
