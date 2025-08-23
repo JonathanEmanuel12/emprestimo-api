@@ -22,5 +22,5 @@ jobs:
           port: 22
           script: |
             cd emprestimo-api
-            git pull origin master
+            git pull deploy master
             docker compose up -d
