@@ -23,4 +23,5 @@ jobs:
           script: |
             cd emprestimo-api
             git pull deploy master
+            docker compose stop
             docker compose up -d
