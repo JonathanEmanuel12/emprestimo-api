@@ -19,6 +19,6 @@ export default class EmailService {
             return
         }
         sgMail.setApiKey(env.get('SENDGRID_API_KEY'))
-        await sgMail.send({ from: 'admin@gmail.com', ...emailDto })
+        await sgMail.send({ from: 'jonathanemanuel76@hotmail.com', ...emailDto })
     }
 }

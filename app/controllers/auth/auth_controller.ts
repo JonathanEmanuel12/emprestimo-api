@@ -1,11 +1,11 @@
 import { inject } from '@adonisjs/core';
 import type { HttpContext } from '@adonisjs/core/http'
 //todo usar # nos imports
-import SignInUseCase from '../../use_cases/auth/sign_in_use_case.js';
+import SignInUseCase from '#use_cases/auth/sign_in_use_case';
 import { codeValidator, signInValidator } from '#validators/general/auth_validator';
-import SignUpUseCase from '../../use_cases/auth/sign_up_use_case.js';
+import SignUpUseCase from '#use_cases/auth/sign_up_use_case';
 import { createClientValidator } from '#validators/client/client_validator';
-import ValidateSignUpCodeUseCase from '../../use_cases/auth/validate_sign_up_code_use_case.js';
+import ValidateSignUpCodeUseCase from '#use_cases/auth/validate_sign_up_code_use_case';
 
 @inject()
 export default class AuthController {

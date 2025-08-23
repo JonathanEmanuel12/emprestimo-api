@@ -12,8 +12,6 @@ export default class FileService {
 
     public async upload(file: MultipartFile, location: string, fileName: string): Promise<string> {
         const completeFileName = this.getCompleteFileName(fileName)
-        // upload falso enquanto não há conta na aws
-        return location + completeFileName
         const buffer = fs.readFileSync(file.tmpPath!)
         await this.disk.put(`${location}/${completeFileName}`, new Uint8Array(buffer))
         return await this.disk.getUrl(`${location}/${completeFileName}`)

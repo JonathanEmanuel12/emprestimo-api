@@ -9,11 +9,11 @@ export default class UpdateItemUseCase {
     ) { }
 
     public async run(itemId: string, clientId: string, name?: string, description?: string, observation?: string): Promise<void> {
-        const item = await this.itemRepository.show(itemId)
+        const item = await this.itemRepository.get(itemId)
         if (item.clientId !== clientId) {
             throw new ApplicationException('Acesso negado!', { status: 403 })
         }
 
-        await this.itemRepository.update(item, name, description, observation)
+        await this.itemRepository.update(item, { name, description, observation })
     }
 }

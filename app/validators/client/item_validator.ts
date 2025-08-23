@@ -4,6 +4,7 @@ export const createItemValidator = vine.compile(
     vine.object({
         name: vine.string().trim(),
         description: vine.string(),
+        img: vine.file({ extnames: ['jpg', 'jpeg', 'png'], size: '3mb' }),
         observation: vine.string().optional()
     })
 )
@@ -19,8 +20,13 @@ export const updateItemValidator = vine.compile(
 export const indexItemValidator = vine.compile(
     vine.object({
         showMyItems: vine.boolean().optional(),
-        latitude: vine.string(),
-        longitude: vine.string(),
         distance: vine.number()     
+    })
+)
+
+export const geolocationFilterValidator = vine.compile(
+    vine.object({
+        latitude: vine.string(),
+        longitude: vine.string()
     })
 )

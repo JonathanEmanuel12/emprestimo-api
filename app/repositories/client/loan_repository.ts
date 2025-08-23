@@ -16,6 +16,16 @@ export default class LoanRepository {
         await loan.merge(loanDto).save()
     }
 
+    public async index(search: string, page: number, perPage: number, clientId: string): Promise<Loan[]> {
+        return await Loan.query()
+        .whereHas('item' as any, (query) => {
+            query.whereILike('name', `%${search}%`)
+        })
+        .andWhere('clientId', clientId)
+        .paginate(page, perPage)
+
+    }
+
     public async getOverdueByClient(clientId: string): Promise<Loan | null> {
         return await Loan.query()
             .where('clientId', clientId)
