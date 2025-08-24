@@ -17,6 +17,7 @@ export default class LoanRepository {
     }
 
     public async index(search: string, page: number, perPage: number, clientId: string): Promise<Loan[]> {
+        //todo adicionar where pra pegar emrpestimos requisitados   
         return await Loan.query()
         .whereHas('item' as any, (query) => {
             query.whereILike('name', `%${search}%`)
